@@ -6,11 +6,13 @@ public class Order {
     private final Size size;
     private final Ccy paymentCurrency;
     private final Direction direction;
+    private final Price price;
 
-    public Order(Size size, Ccy paymentCurrency, Direction direction) {
+    public Order(Size size, Ccy paymentCurrency, Direction direction, Price price) {
         this.size = checkNotNull(size);
         this.paymentCurrency = checkNotNull(paymentCurrency);
         this.direction = checkNotNull(direction);
+        this.price = checkNotNull(price);
     }
 
     public Size getSize() {
@@ -23,5 +25,9 @@ public class Order {
 
     public Direction getDirection() {
         return direction;
+    }
+
+    public Price getPrice() {
+        return price;
     }
 }
