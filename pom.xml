@@ -12,7 +12,7 @@
     <description>Credit Suisse - Mandrill pre interview test</description>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>        
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -47,15 +47,15 @@
             <id>central</id>
             <name>Maven Repository Switchboard</name>
             <url>http://repo1.maven.org/maven2</url>
-        </repository>        
+        </repository>
     </repositories>
 
     <pluginRepositories>
-       
+
     </pluginRepositories>
 
     <dependencyManagement>
-        <dependencies>           
+        <dependencies>
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
@@ -81,11 +81,16 @@
                 <artifactId>logback-classic</artifactId>
                 <version>1.1.2</version>
             </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.10.19</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <distributionManagement>
-     
+
     </distributionManagement>
 
     <build>
@@ -149,12 +154,12 @@
                 <artifactId>maven-idea-plugin</artifactId>
                 <version>2.2</version>
             </plugin>
-           
+
         </plugins>
     </build>
 
     <profiles>
-        
+
         <profile>
             <id>Java Project</id>
             <activation>
@@ -195,12 +200,17 @@
                     <groupId>junit</groupId>
                     <artifactId>junit</artifactId>
                     <scope>test</scope>
-                </dependency>    
-		  <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-		<scope>testRuntime</scope>
-            </dependency>         
+                </dependency>
+                <dependency>
+                    <groupId>org.mockito</groupId>
+                    <artifactId>mockito-all</artifactId>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                    <scope>testRuntime</scope>
+                </dependency>
             </dependencies>
         </profile>
     </profiles>

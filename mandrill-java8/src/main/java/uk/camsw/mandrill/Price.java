@@ -9,6 +9,20 @@ public class Price implements Comparable<Price> {
     private static int SCALE = 2;
     private final BigDecimal amount;
 
+    public static Price max(Price p1, Price p2) {
+        if (p1 == null && p2 == null) return null;
+        if (p1 == null) return new Price(p2.amount);
+        if (p2 == null) return new Price(p1.amount);
+        return new Price(p1.amount.max(p2.amount));
+    }
+
+    public static Price min(Price p1, Price p2) {
+        if (p1 == null && p2 == null) return null;
+        if (p1 == null) return new Price(p2.amount);
+        if (p2 == null) return new Price(p1.amount);
+        return new Price(p1.amount.min(p2.amount));
+    }
+
     public Price(String amount) {
         this(new BigDecimal(amount));
     }
@@ -17,12 +31,12 @@ public class Price implements Comparable<Price> {
         this.amount = amount.setScale(SCALE, BigDecimal.ROUND_HALF_UP);
     }
 
-    public boolean isLessThanOrEqualTo(Price other) {
-        return equals(other) || compareTo(other) < 0;
+    public boolean isLessThan(Price other) {
+        return compareTo(other) < 0;
     }
 
-    public boolean isGreaterThanOrEqualTo(Price other) {
-        return equals(other) || compareTo(other) > 0;
+    public boolean isGreaterThan(Price other) {
+        return compareTo(other) > 0;
     }
 
     public Price add(Price other) {
@@ -55,5 +69,6 @@ public class Price implements Comparable<Price> {
     public String toString() {
         return String.format("%." + SCALE + "f", amount.floatValue());
     }
+
 
 }

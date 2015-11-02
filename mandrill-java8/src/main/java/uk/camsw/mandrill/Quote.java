@@ -1,5 +1,8 @@
 package uk.camsw.mandrill;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -8,19 +11,44 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class Quote {
 
-    public final Price csBuy;
-    public final Price csSell;
+    public final Price csBidPrice;
+    public final Price csAskPrice;
 
-    public Quote(Price csBuy, Price csSell) {
-        this.csBuy = checkNotNull(csBuy);
-        this.csSell = checkNotNull(csSell);
+    public Quote(Price csBidPrice, Price csAskPrice) {
+        this.csBidPrice = checkNotNull(csBidPrice);
+        this.csAskPrice = checkNotNull(csAskPrice);
     }
 
-    public Price getCsBuyPrice() {
-        return csBuy;
+    public Price getCsBidPrice() {
+        return csBidPrice;
     }
 
-    public Price getCsSellPrice() {
-        return csSell;
+    public Price getCsAskPrice() {
+        return csAskPrice;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Quote that = (Quote) o;
+
+        return Objects.equal(this.csBidPrice, that.csBidPrice) &&
+                Objects.equal(this.csAskPrice, that.csAskPrice);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(csBidPrice, csAskPrice);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("csBidPrice", csBidPrice)
+                .add("csAskPrice", csAskPrice)
+                .toString();
     }
 }

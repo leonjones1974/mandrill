@@ -3,57 +3,60 @@ package uk.camsw.mandrill;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static uk.camsw.mandrill.Ccy.*;
-import static uk.camsw.mandrill.Direction.BUY;
-import static uk.camsw.mandrill.Direction.SELL;
+import static uk.camsw.mandrill.Ccy.EUR;
+import static uk.camsw.mandrill.Ccy.GBP;
 
 public class OrderTest {
     private static final Size SIZE = new Size(500);
     private static final Price PRICE = new Price("123.23");
 
     @Test
-    public void create_whereValid_ShouldContainSize() {
-        Order order = new Order(SIZE, EUR, BUY, PRICE);
+    public void create_WhereValid_ShouldContainSize() {
+        Order order = Order.createBuy(SIZE, EUR, PRICE);
         assertThat(order.getSize()).isEqualTo(SIZE);
     }
 
     @Test
-    public void create_whereValid_ShouldContainPaymentCurrency() {
-        Order order = new Order(SIZE, EUR, BUY, PRICE);
+    public void create_WhereValid_ShouldContainPaymentCurrency() {
+        Order order = Order.createBuy(SIZE, EUR, PRICE);
         assertThat(order.getPaymentCurrency()).isEqualTo(EUR);
     }
 
     @Test
-    public void create_whereValid_ShouldContainDirection() {
-        Order order = new Order(SIZE, EUR, BUY, PRICE);
-        assertThat(order.getDirection()).isEqualTo(BUY);
+    public void create_ForBuy_ShouldIndicateCorrectDirection() {
+        Order order = Order.createBuy(SIZE, EUR, PRICE);
+        assertThat(order)
+                .matches(Order::isBuy)
+                .matches(o -> !o.isSell());
     }
 
     @Test
-    public void create_whereValid_ShouldContainPrice() {
-        Order order = new Order(SIZE, EUR, BUY, PRICE);
+    public void create_ForSell_ShouldIndicateCorrectDirection() {
+        Order order = Order.createSell(SIZE, EUR, PRICE);
+        assertThat(order)
+                .matches(Order::isSell)
+                .matches(o -> !o.isBuy());
+    }
+
+    @Test
+    public void create_WhereValid_ShouldContainPrice() {
+        Order order = Order.createBuy(SIZE, EUR, PRICE);
         assertThat(order.getPrice()).isEqualTo(PRICE);
     }
 
     @Test(expected = NullPointerException.class)
-    public void create_wherePaymentCurrencyIsNull_ShouldRaiseError() {
-        new Order(SIZE, null, Direction.SELL, PRICE);
+    public void create_WherePaymentCurrencyIsNull_ShouldRaiseError() {
+        Order.createBuy(SIZE, null, PRICE);
     }
 
     @Test(expected = NullPointerException.class)
-    public void create_whereDirectionIsNull_ShouldRaiseError() {
-        new Order(SIZE, EUR, null, PRICE);
+    public void create_WhereSizeIsNull_ShouldRaiseError() {
+        Order.createSell(null, GBP, PRICE);
     }
 
     @Test(expected = NullPointerException.class)
-    public void create_whereSizeIsNull_ShouldRaiseError() {
-        new Order(null, GBP, SELL, PRICE);
+    public void create_WherePriceIsNull_ShouldRaiseError() {
+        Order.createSell(SIZE, GBP, null);
     }
-
-    @Test(expected = NullPointerException.class)
-    public void create_wherePriceIsNull_ShouldRaiseError() {
-        new Order(SIZE, GBP, SELL, null);
-    }
-
 
 }
